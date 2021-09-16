@@ -3,7 +3,7 @@ A hardware cursor plugin for the solar2D (formerly corona-sdk) game engine
 
 # Usage
 ```lua
-local cursor = require(plugin.hwcursor)
+local cursor = require('plugin.hwcursor')
 cursor.initPlugin()
 cursor.loadCursor(system.pathForFile('cursor.ani'))
 -- cursor.loadCursor(system.pathForFile('cursor.cur'))
