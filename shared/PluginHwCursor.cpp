@@ -43,7 +43,7 @@ int luaopen_plugin_hwcursor(lua_State *L) {
 // ----------------------------------------------------------------------------
 
 HWND windowHandle;
-LONG_PTR prevWndProc;
+WNDPROC prevWndProc;
 HCURSOR currentCursor;
 bool cursorHidden = false;
 
@@ -59,7 +59,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		}
 	}
 	else {
-		result = CallWindowProc((WNDPROC)prevWndProc, hwnd, uMsg, wParam, lParam);
+        if(uMsg == WM_NCDESTROY) {
+            currentCursor = NULL;
+        }
+		result = CallWindowProc(prevWndProc, hwnd, uMsg, wParam, lParam);
 	}
 
     return result;
@@ -69,8 +72,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 static int initPlugin(lua_State *L) {
     windowHandle = GetForegroundWindow();
-    prevWndProc = SetWindowLongPtr(windowHandle, GWLP_WNDPROC, (LONG)WindowProc);
-	CoronaLuaLog(L, "init");
+	prevWndProc = (WNDPROC)SetWindowLongPtr(windowHandle, GWLP_WNDPROC, (LONG_PTR)&WindowProc);
     return 0;
 }
 
@@ -80,7 +82,6 @@ static int loadCursor(lua_State *L) {
     std::string cursorLoc = lua_tostring(L, 1);
     currentCursor = LoadCursorFromFile(s2ws(cursorLoc).c_str());
     SetCursor(currentCursor);
-    CoronaLuaLog(L, cursorLoc.c_str());
     return 0;
 }
 
@@ -95,6 +96,7 @@ static int freeCursor(lua_State *L) {
 static int showCursor(lua_State *L) {
 	if(cursorHidden) {
 		ShowCursor(true);
+		cursorHidden = false;
 	}
     return 0;
 }
@@ -102,8 +104,9 @@ static int showCursor(lua_State *L) {
 // ----------------------------------------------------------------------------
 
 static int hideCursor(lua_State *L) {
-	if (!cursorHidden) {
+	if(!cursorHidden) {
 		ShowCursor(false);
+		cursorHidden = true;
 	}
     return 0;
 }
