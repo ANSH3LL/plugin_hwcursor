@@ -26,7 +26,6 @@ int luaopen_plugin_hwcursor(lua_State *L) {
             {"initPlugin", initPlugin},
             {"freePlugin", freePlugin},
             {"loadCursor", loadCursor},
-            {"freeCursor", freeCursor},
             {"showCursor", showCursor},
             {"hideCursor", hideCursor},
             {"resetCursor", resetCursor},
@@ -54,9 +53,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
             return true;
         }
     }
-    else if(uMsg == WM_DESTROY || uMsg == WM_NCDESTROY) {
-        RemoveWindowSubclass(windowHandle, &WindowProc, uIdSubclass);
+    /*
+    else if(uMsg == WM_CLOSE || uMsg == WM_DESTROY) {
+        RemoveWindowSubclass(windowHandle, &WindowProc, 1);
     }
+    */
     return DefSubclassProc(hwnd, uMsg, wParam, lParam);
 }
 
@@ -81,12 +82,6 @@ static int loadCursor(lua_State *L) {
     std::string cursorLoc = lua_tostring(L, 1);
     currentCursor = LoadCursorFromFile(s2ws(cursorLoc).c_str());
     SetCursor(currentCursor);
-    return 0;
-}
-
-// ----------------------------------------------------------------------------
-
-static int freeCursor(lua_State *L) {
     return 0;
 }
 

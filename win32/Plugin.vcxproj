@@ -73,8 +73,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(TargetPath)" "%APPDATA%\Corona Labs\Corona Simulator\Plugins" /Y /I /E
-</Command>
+      <command>tar -cvzf $(TargetDir)\win32-sim.tgz $(TargetPath)</command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,7 +97,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(TargetPath)" "%APPDATA%\Corona Labs\Corona Simulator\Plugins" /Y /I /E</Command>
+      <command>cd $(TargetDir)
+tar -cvzf win32-sim.tgz plugin_hwcursor.dll</command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

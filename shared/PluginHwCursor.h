@@ -28,7 +28,6 @@ CORONA_EXPORT int luaopen_plugin_hwcursor(lua_State *L);
 static int initPlugin(lua_State *L);
 static int freePlugin(lua_State *L);
 static int loadCursor(lua_State *L);
-static int freeCursor(lua_State *L);
 static int showCursor(lua_State *L);
 static int hideCursor(lua_State *L);
 static int resetCursor(lua_State *L);
