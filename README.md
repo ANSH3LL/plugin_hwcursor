@@ -2,26 +2,8 @@
 A hardware cursor plugin for the solar2D (formerly corona-sdk) game engine
 
 # Usage
-```lua
-local cursor = require('plugin.hwcursor')
-cursor.initPlugin()
-cursor.loadCursor(system.pathForFile('cursor.ani'))
--- cursor.loadCursor(system.pathForFile('cursor.cur'))
+Refer to example project in ```Corona/``` directory
 
-timer.performWithDelay(5000,
-    function()
-        cursor.resetCursor() -- reset to default arrow cursor
-    end
-)
-
--- Make sure to free the plugin some moments before the application needs to exit or it will crash during exit (don't currently know how to fix this)
-cursor.freePlugin()
-
---Untested
-cursor.showCursor()
-cursor.hideCursor()
-```
-
-# Installation
-- TBD
+# Caveats
 - Only supports windows for now
+- You must call ```cursor.freePlugin()``` some moments before allowing the application to exit. This is to stop the application from crashing as it exits. An example of how this can be done is provided.
