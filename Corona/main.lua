@@ -78,7 +78,7 @@ widget.newButton(
         onRelease = function()
             cursor.resetCursor()
             cursor.freePlugin()
-            timer.performWithDelay(500, function() native.requestExit() end)
+            native.requestExit()
         end,
         labelColor = { default = { 1, 1, 1 }, over = { 0, 0, 0, 0.5 } },
         fillColor = { default = { 1, 0.2, 0.5, 0.7 }, over = { 1, 0.2, 0.5, 1 } }

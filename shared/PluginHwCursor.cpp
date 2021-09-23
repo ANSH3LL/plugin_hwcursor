@@ -17,10 +17,10 @@ CORONA_EXPORT int CoronaPluginLuaLoad_plugin_hwcursor(lua_State *);
 
 CORONA_EXPORT
 int luaopen_plugin_hwcursor(lua_State *L) {
-    
+
     lua_CFunction factory = Corona::Lua::Open<CoronaPluginLuaLoad_plugin_hwcursor>;
     int result = CoronaLibraryNewWithFactory(L, factory, NULL, NULL);
-    
+
     if(result) {
         const luaL_Reg kFunctions[] = {
             {"initPlugin", initPlugin},
@@ -31,10 +31,10 @@ int luaopen_plugin_hwcursor(lua_State *L) {
             {"resetCursor", resetCursor},
             {NULL, NULL}
         };
-    
+
         luaL_register(L, NULL, kFunctions);
     }
-    
+
     return result;
 }
 
@@ -53,11 +53,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
             return true;
         }
     }
-    /*
-    else if(uMsg == WM_CLOSE || uMsg == WM_DESTROY) {
-        RemoveWindowSubclass(windowHandle, &WindowProc, 1);
+    else if(uMsg == WM_CLOSE) {
+        RemoveWindowSubclass(windowHandle, &WindowProc, uIdSubclass);
+        return false;
     }
-    */
     return DefSubclassProc(hwnd, uMsg, wParam, lParam);
 }
 
