@@ -8,7 +8,12 @@ local function setmt__gc(tbl, metatable)
 end
 ]]--
 -- Create stub library for simulator
-local lib = Library:new { name = 'plugin.hwcursor', publisherId = 'com.ansh3ll' }
+local lib = Library:new(
+    {
+        name = 'plugin.hwcursor',
+        publisherId = 'com.ansh3ll'
+    }
+)
 --[[
 local function cleanup(self)
     lib.resetCursor()
@@ -21,4 +26,21 @@ function lib.init(self)
 end
 ]]--
 -- Return an instance
+
+-- Cursors provided by windows, for use with plugin.loadWinCursor()
+lib.ARROW = 1
+lib.POINTER = 2
+lib.CROSSHAIR = 3
+lib.IBEAM = 4
+lib.NOTALLOWED = 5
+lib.RESIZE = 6
+lib.WAIT = 7
+lib.HELP = 8
+lib.BUSY = 9
+lib.RESIZENESW = 10
+lib.RESIZENS = 11
+lib.RESIZENWSE = 12
+lib.RESIZEWE = 13
+lib.UPARROW = 14
+
 return lib

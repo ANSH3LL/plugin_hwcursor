@@ -31,6 +31,7 @@ static int loadCursor(lua_State *L);
 static int showCursor(lua_State *L);
 static int hideCursor(lua_State *L);
 static int resetCursor(lua_State *L);
+static int loadWinCursor(lua_State *L);
 
 // ----------------------------------------------------------------------------
 
