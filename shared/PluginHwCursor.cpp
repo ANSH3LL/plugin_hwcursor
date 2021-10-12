@@ -23,13 +23,14 @@ int luaopen_plugin_hwcursor(lua_State *L) {
 
     if(result) {
         const luaL_Reg kFunctions[] = {
-            {"initPlugin", initPlugin},
+            {"initialize", initialize},
             {"freePlugin", freePlugin},
             {"loadCursor", loadCursor},
             {"showCursor", showCursor},
             {"hideCursor", hideCursor},
             {"resetCursor", resetCursor},
             {"loadWinCursor", loadWinCursor},
+            {"regExitCallback", regExitCallback},
             {NULL, NULL}
         };
 
@@ -41,9 +42,11 @@ int luaopen_plugin_hwcursor(lua_State *L) {
 
 // ----------------------------------------------------------------------------
 
+lua_State *state;
 HWND windowHandle;
 HCURSOR currentCursor;
 bool cursorHidden = false;
+static int exitCallback = 0;
 
 // ----------------------------------------------------------------------------
 
@@ -56,6 +59,18 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
     }
     else if(uMsg == WM_CLOSE) {
         RemoveWindowSubclass(windowHandle, &WindowProc, uIdSubclass);
+
+        if(exitCallback != 0) {
+            lua_rawgeti(state, LUA_REGISTRYINDEX, exitCallback);
+            if(lua_pcall(state, 0, 0, 0) != 0) {
+                CoronaLuaLog(state, "[hwcursor] the error below occurred while calling the callback function");
+                CoronaLuaLog(state, lua_tostring(state, -1));
+            }
+        }
+        else {
+            CoronaLuaLog(state, "[hwcursor] no exit callback was found");
+        }
+
         return false;
     }
     return DefSubclassProc(hwnd, uMsg, wParam, lParam);
@@ -63,7 +78,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
 
 // ----------------------------------------------------------------------------
 
-static int initPlugin(lua_State *L) {
+// Do NOT use this function unless you're sure you know what you're doing
+// Instead use "initPlugin" as defined in plugin_hwcursor.lua
+static int initialize(lua_State *L) {
+    state = L;
     windowHandle = GetForegroundWindow();
     SetWindowSubclass(windowHandle, &WindowProc, 1, 0);
     return 0;
@@ -161,5 +179,13 @@ static int loadWinCursor(lua_State *L) {
             break;
     }
     SetCursor(currentCursor);
+    return 0;
+}
+
+// ----------------------------------------------------------------------------
+
+// Do NOT use this function unless you're sure you know what you're doing
+static int regExitCallback(lua_State *L) {
+    exitCallback = luaL_ref(L, LUA_REGISTRYINDEX);
     return 0;
 }

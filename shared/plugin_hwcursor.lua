@@ -1,31 +1,24 @@
 local Library = require('CoronaLibrary')
---[[
-local function setmt__gc(tbl, metatable)
-    local proxy = newproxy(true)
-    getmetatable(proxy).__gc = function() metatable.__gc(tbl) end
-    tbl[proxy] = true
-    return setmetatable(tbl, metatable)
-end
-]]--
--- Create stub library for simulator
+
+-- Create stub library
 local lib = Library:new(
     {
         name = 'plugin.hwcursor',
         publisherId = 'com.ansh3ll'
     }
 )
---[[
-local function cleanup(self)
-    lib.resetCursor()
-    lib.freePlugin()
-end
 
-function lib.init(self)
-    setmt__gc(self, {__gc = cleanup})
-    lib.initPlugin()
+function lib.initPlugin()
+    lib.initialize()
+
+    -- Register default exit callback -> fixes issue with crashing on exit and negates need for pesky workaround
+    lib.regExitCallback(
+        function()
+            lib.resetCursor()
+            native.requestExit()
+        end
+    )
 end
-]]--
--- Return an instance
 
 -- Cursors provided by windows, for use with plugin.loadWinCursor()
 lib.ARROW = 1
@@ -43,4 +36,5 @@ lib.RESIZENWSE = 12
 lib.RESIZEWE = 13
 lib.UPARROW = 14
 
+-- Return an instance
 return lib
