@@ -136,46 +136,46 @@ static int loadWinCursor(lua_State *L) {
     int cursor = lua_tonumber(L, 1);
     switch(cursor) {
         case 1:
-            currentCursor = LoadCursorW(NULL, IDC_ARROW);
+            currentCursor = LoadCursor(NULL, IDC_ARROW);
             break;
         case 2:
-            currentCursor = LoadCursorW(NULL, IDC_HAND);
+            currentCursor = LoadCursor(NULL, IDC_HAND);
             break;
         case 3:
-            currentCursor = LoadCursorW(NULL, IDC_CROSS);
+            currentCursor = LoadCursor(NULL, IDC_CROSS);
             break;
         case 4:
-            currentCursor = LoadCursorW(NULL, IDC_IBEAM);
+            currentCursor = LoadCursor(NULL, IDC_IBEAM);
             break;
         case 5:
-            currentCursor = LoadCursorW(NULL, IDC_NO);
+            currentCursor = LoadCursor(NULL, IDC_NO);
             break;
         case 6:
-            currentCursor = LoadCursorW(NULL, IDC_SIZEALL);
+            currentCursor = LoadCursor(NULL, IDC_SIZEALL);
             break;
         case 7:
-            currentCursor = LoadCursorW(NULL, IDC_WAIT);
+            currentCursor = LoadCursor(NULL, IDC_WAIT);
             break;
         case 8:
-            currentCursor = LoadCursorW(NULL, IDC_HELP);
+            currentCursor = LoadCursor(NULL, IDC_HELP);
             break;
         case 9:
-            currentCursor = LoadCursorW(NULL, IDC_APPSTARTING);
+            currentCursor = LoadCursor(NULL, IDC_APPSTARTING);
             break;
         case 10:
-            currentCursor = LoadCursorW(NULL, IDC_SIZENESW);
+            currentCursor = LoadCursor(NULL, IDC_SIZENESW);
             break;
         case 11:
-            currentCursor = LoadCursorW(NULL, IDC_SIZENS);
+            currentCursor = LoadCursor(NULL, IDC_SIZENS);
             break;
         case 12:
-            currentCursor = LoadCursorW(NULL, IDC_SIZENWSE);
+            currentCursor = LoadCursor(NULL, IDC_SIZENWSE);
             break;
         case 13:
-            currentCursor = LoadCursorW(NULL, IDC_SIZEWE);
+            currentCursor = LoadCursor(NULL, IDC_SIZEWE);
             break;
         case 14:
-            currentCursor = LoadCursorW(NULL, IDC_UPARROW);
+            currentCursor = LoadCursor(NULL, IDC_UPARROW);
             break;
     }
     SetCursor(currentCursor);
