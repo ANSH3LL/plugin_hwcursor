@@ -37,4 +37,4 @@ Refer to example project in ```Corona/``` directory
 
 # Caveats
 - Only supports windows for now
-- You must call ```cursor.freePlugin()``` while exiting the application programmatically. An example of how this should be done is provided.
+- You must call ```plugin.freePlugin()``` while exiting the application programmatically. An example of how this should be done is provided.
