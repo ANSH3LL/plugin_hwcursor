@@ -96,21 +96,20 @@ static int freePlugin(lua_State *L) {
 
 // ----------------------------------------------------------------------------
 
+// Requires 2 calls to actually set the cursor
+// 1st is to preload and second to actually set the cursor using pointer to preloaded resource
 static int loadCursor(lua_State *L) {
     if(lua_islightuserdata(L, 1)) {
         currentCursor = (HCURSOR)lua_touserdata(L, 1);
+        SetCursor(currentCursor);
+        return 0;
     }
     else {
         std::string cursorLoc = lua_tostring(L, 1);
-        currentCursor = LoadCursorFromFile(s2ws(cursorLoc).c_str());
-        lua_pushlightuserdata(L, currentCursor);
+        HCURSOR cursor = LoadCursorFromFile(s2ws(cursorLoc).c_str());
+        lua_pushlightuserdata(L, cursor);
+        return 1;
     }
-    // if argument 2 exists and is true, we do not set the cursor
-    // useful for preloading cursors
-    if(!lua_toboolean(L, 2)) {
-        SetCursor(currentCursor);
-    }
-    return 1;
 }
 
 // ----------------------------------------------------------------------------

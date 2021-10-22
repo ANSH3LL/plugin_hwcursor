@@ -4,6 +4,20 @@ local cursor = require('plugin.hwcursor')
 local hidden = false
 cursor.initPlugin()
 
+-- New in this branch
+
+-- Call cursor.loadCursor the first time with the path to the cursor
+-- and store the return value, which is a pointer to the cursor resource (preload step)
+
+-- Call cursor.loadCursor the second time with the previously returned pointer
+-- to actually set the cursor (usage step)
+
+-- Cursors must be preloaded before being used
+local cursors = {
+    cursor1 = cursor.loadCursor(system.pathForFile('cursor1.cur')),
+    cursor2 = cursor.loadCursor(system.pathForFile('cursor2.ani'))
+}
+
 display.newText(
     {
         x = display.contentCenterX,
@@ -37,7 +51,8 @@ widget.newButton(
         x = display.contentCenterX,
         y = display.contentCenterY - 50,
         label = 'Custom cursor 1',
-        onRelease = function() cursor.loadCursor(system.pathForFile('cursor1.cur')) end,
+        -- Set cursor using stored pointer
+        onRelease = function() cursor.loadCursor(cursors.cursor1) end,
         labelColor = { default = { 1, 1, 1 }, over = { 0, 0, 0, 0.5 } },
         fillColor = { default = { 1, 0.2, 0.5, 0.7 }, over = { 1, 0.2, 0.5, 1 } }
     }
@@ -51,7 +66,8 @@ widget.newButton(
         x = display.contentCenterX,
         y = display.contentCenterY,
         label = 'Custom cursor 2',
-        onRelease = function() cursor.loadCursor(system.pathForFile('cursor2.ani')) end,
+        -- Set cursor using stored pointer
+        onRelease = function() cursor.loadCursor(cursors.cursor2) end,
         labelColor = { default = { 1, 1, 1 }, over = { 0, 0, 0, 0.5 } },
         fillColor = { default = { 1, 0.2, 0.5, 0.7 }, over = { 1, 0.2, 0.5, 1 } }
     }
