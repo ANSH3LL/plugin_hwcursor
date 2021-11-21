@@ -29,6 +29,7 @@ int luaopen_plugin_hwcursor(lua_State *L) {
             {"showCursor", showCursor},
             {"hideCursor", hideCursor},
             {"resetCursor", resetCursor},
+            {"destroyCursor", destroyCursor},
             {"loadWinCursor", loadWinCursor},
             {"regExitCallback", regExitCallback},
             {NULL, NULL}
@@ -63,12 +64,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
         if(exitCallback != 0) {
             lua_rawgeti(state, LUA_REGISTRYINDEX, exitCallback);
             if(lua_pcall(state, 0, 0, 0) != 0) {
-                CoronaLuaLog(state, "[hwcursor] the error below occurred while calling the callback function");
-                CoronaLuaLog(state, lua_tostring(state, -1));
+                CoronaLuaError(state, "[hwcursor] The error below occurred while calling the callback function");
+                CoronaLuaError(state, lua_tostring(state, -1));
             }
         }
         else {
-            CoronaLuaLog(state, "[hwcursor] no exit callback was found");
+            CoronaLuaError(state, "[hwcursor] No exit callback was found");
         }
 
         return false;
@@ -106,7 +107,9 @@ static int loadCursor(lua_State *L) {
     }
     else {
         std::string cursorLoc = lua_tostring(L, 1);
-        HCURSOR cursor = LoadCursorFromFile(s2ws(cursorLoc).c_str());
+        // Allows for actual cursor size to be used with no constraints, i.e: even 256x256 size cursors will display at this
+        // size with no downsizing being performed as happens with LoadCursorFromFile
+        HCURSOR cursor = (HCURSOR)LoadImage(NULL, s2ws(cursorLoc).c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
         lua_pushlightuserdata(L, cursor);
         return 1;
     }
@@ -136,6 +139,25 @@ static int hideCursor(lua_State *L) {
 
 static int resetCursor(lua_State *L) {
     currentCursor = NULL;
+    SetCursor(currentCursor);
+    return 0;
+}
+
+// ----------------------------------------------------------------------------
+
+static int destroyCursor(lua_State *L) {
+    HCURSOR cursor = (HCURSOR)lua_touserdata(L, 1);
+    if(cursor == currentCursor) {
+        currentCursor = NULL;
+        SetCursor(currentCursor);
+    }
+    DestroyCursor(cursor);
+    /*
+    if(!DestroyCursor(cursor)) {
+        CoronaLuaError(L, "[hwcursor] The error below occurred while destroying the cursor");
+        CoronaLuaError(L, GetLastErrorAsString().c_str());
+    }
+    */
     return 0;
 }
 

@@ -12,6 +12,7 @@ Refer to example project in ```Corona/``` directory
 - ```showCursor``` - shows the cursor if it was hidden
 - ```hideCursor``` - hides the cursor if it was visible
 - ```resetCursor``` - resets the cursor to the default arrow cursor
+- ```destroyCursor``` - destroys the cursor handle and frees its memory
 - ```loadWinCursor``` - loads the specified windows-provided cursor
 
 # Valid arguments to loadWinCursor()
@@ -37,4 +38,5 @@ Refer to example project in ```Corona/``` directory
 
 # Caveats
 - Only supports windows for now
+- Destroy preloaded cursors before exiting the application programmatically. Call ```plugin.destroyCursor(cursor)```.
 - You must call ```plugin.freePlugin()``` while exiting the application programmatically. An example of how this should be done is provided.
