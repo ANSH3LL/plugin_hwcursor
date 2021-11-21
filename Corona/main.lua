@@ -64,6 +64,20 @@ widget.newButton(
         shape = 'roundedRect',
         x = display.contentCenterX,
         y = display.contentCenterY + 50,
+        label = 'Custom cursor 3',
+        onRelease = function() cursor.loadCursor(system.pathForFile('cursor3.ani')) end,
+        labelColor = { default = { 1, 1, 1 }, over = { 0, 0, 0, 0.5 } },
+        fillColor = { default = { 1, 0.2, 0.5, 0.7 }, over = { 1, 0.2, 0.5, 1 } }
+    }
+)
+
+widget.newButton(
+    {
+        width = 200,
+        height = 30,
+        shape = 'roundedRect',
+        x = display.contentCenterX,
+        y = display.contentCenterY + 100,
         label = 'Show/Hide cursor',
         onRelease = function()
             if hidden then
@@ -84,7 +98,7 @@ widget.newButton(
         height = 30,
         shape = 'roundedRect',
         x = display.contentCenterX,
-        y = display.contentCenterY + 100,
+        y = display.contentCenterY + 150,
         label = 'Exit application',
         onRelease = function()
             cursor.resetCursor()
