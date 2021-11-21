@@ -12,7 +12,7 @@ Refer to example project in ```Corona/``` directory
 - ```showCursor``` - shows the cursor if it was hidden
 - ```hideCursor``` - hides the cursor if it was visible
 - ```resetCursor``` - resets the cursor to the default arrow cursor
-- ```destroyCursor``` - destroys the cursor handle and frees its memory
+- ```destroyCursor``` - destroys a cursor handle and frees its memory
 - ```loadWinCursor``` - loads the specified windows-provided cursor
 
 # Valid arguments to loadWinCursor()
