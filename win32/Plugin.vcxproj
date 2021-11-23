@@ -91,7 +91,7 @@ tar -cvzf win32-sim.tgz plugin_hwcursor.dll</command>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(CORONA_ROOT)\Corona\win\lib\*.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
