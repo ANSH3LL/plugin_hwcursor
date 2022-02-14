@@ -49,7 +49,7 @@ settings =
             {
                 ['win32-sim'] =
                 {
-                    url = 'https://github.com/ANSH3LL/plugin_hwcursor/releases/download/v0.5/win32-sim.tgz'
+                    url = 'https://github.com/ANSH3LL/plugin_hwcursor/releases/download/v0.6/win32-sim.tgz'
                 }
             }
         },
