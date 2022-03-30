@@ -22,10 +22,6 @@ CORONA_EXPORT int luaopen_plugin_hwcursor(lua_State *L);
 
 // ----------------------------------------------------------------------------
 
-#endif // _SimulatorPluginLibrary_H__
-
-// ----------------------------------------------------------------------------
-
 static int initPlugin(lua_State *L);
 static int freePlugin(lua_State *L);
 
@@ -50,3 +46,7 @@ std::wstring s2ws(const std::string &s) {
     MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, const_cast<wchar_t*>(buf.c_str()), len);
     return buf;
 }
+
+// ----------------------------------------------------------------------------
+
+#endif // _SimulatorPluginLibrary_H__

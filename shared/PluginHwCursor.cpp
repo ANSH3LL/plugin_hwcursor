@@ -62,7 +62,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, 
         RemoveWindowSubclass(windowHandle, &WindowProc, 1);
 
         if(bare_metal) {
-            // Black magic fuckery to prevent crashing on exit and having to click "Close" twice
+            // Hack to prevent crashing on exit and having to click "Close" twice
             if(shim != 0) {
                 lua_rawgeti(state, LUA_REGISTRYINDEX, shim);
                 if(lua_pcall(state, 0, 0, 0) != 0) {
